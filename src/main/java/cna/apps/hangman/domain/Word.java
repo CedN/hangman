@@ -38,4 +38,8 @@ public class Word {
     letterFounds = letterFounds + c;
   }
 
+  public boolean isTheGoodWord(String proposal) {
+    return wordToGuess.equals(proposal);
+  }
+
 }
