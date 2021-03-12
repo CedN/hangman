@@ -28,7 +28,6 @@ public class WordShould {
         String wordToGuess = "hangman";
         Word word =  new Word(wordToGuess);
         word.tryLetter('h');
-        System.out.println(word.getMask());
         assertEquals("h------", word.getMask());
     }
 
