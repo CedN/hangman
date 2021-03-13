@@ -16,6 +16,10 @@ public class Hangman {
     return step;
   }
 
+  public String getArt() {
+    return HangmanAsciiArt.fromStep(step);
+  }
+
   public void increaseStep() throws GameOverException {
     step++;
     if (step == LAST_STEP) {
