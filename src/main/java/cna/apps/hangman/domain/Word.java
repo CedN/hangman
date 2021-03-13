@@ -6,10 +6,13 @@ public class Word {
 
   private final String wordToGuess;
 
+  private final Hangman hangman;
+  
   private String letterFounds;
 
   public Word(String wordToGuess) {
     this.wordToGuess = wordToGuess;
+    hangman = new Hangman();
     letterFounds = "";
   }
 
@@ -31,15 +34,23 @@ public class Word {
     return UNKNOWN_LETTER;
   }
 
-  public void tryLetter(char c) throws BadLetterException {
+  public void tryLetter(char c) throws GameOverException {
     if (wordToGuess.indexOf(c) == -1) {
-      throw new BadLetterException();
+      hangman.increaseStep();
     }
     letterFounds = letterFounds + c;
   }
 
-  public boolean isTheGoodWord(String proposal) {
-    return wordToGuess.equals(proposal);
+  public boolean isTheGoodWord(String proposal) throws GameOverException {
+    boolean theGoodWord = wordToGuess.equals(proposal);
+    if (!theGoodWord) {
+      hangman.increaseStep();
+    }
+    return theGoodWord;
+  }
+
+  public Hangman getHangMan() {
+    return hangman;
   }
 
 }
