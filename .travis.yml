@@ -1,7 +1,8 @@
+os: linux
+dist: xenial
 language: java
 jdk: 
   - oraclejdk15
-sudo: false
 cache:
   directories:
   - $HOME/.m2
@@ -9,4 +10,4 @@ before_install:
   - chmod +x mvnw
 after_success:
   - mvn clean test jacoco:report coveralls:report
-script: ./mvnw clean package
+script: ./mvnw clean package -Dcoveralls-token=${COVERALLS_TOKEN}
