@@ -1,0 +1,144 @@
+openapi: 3.0.1
+info:
+  title: Hangman
+  description: 'This is a simple service to play to hangman.'
+  version: 1.0.0
+paths:
+  /game:
+    post:
+      summary: 'Create a new game'
+      operationId: createGame
+      responses:
+        201:
+          description: 'New game created'
+          headers:
+            location:
+              schema:
+                type: string
+                format: url
+                example: 
+                  'http://localhost/game/036c5abc-8dbd-11eb-8dcd-0242ac130003'
+  /game/{gameId}:
+    get:
+      summary: 'Get game state'
+      operationId: fetchGame
+      parameters:
+      - name: gameId
+        in: path
+        description: 'ID of game'
+        required: true
+        schema:
+          type: string
+          example: 
+            '036c5abc-8dbd-11eb-8dcd-0242ac130003'
+      responses:
+        200:
+          description: 'State of game'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGameResponse'
+  /game/{gameId}/suggestion/{letter}: 
+    put:
+      summary: 'Suggests a letter'
+      parameters:
+      - name: gameId
+        in: path
+        description: 'ID of game'
+        required: true
+        schema:
+          type: string
+          example: 
+            '036c5abc-8dbd-11eb-8dcd-0242ac130003'
+      - name: letter
+        in: path
+        description: 'Suggested letter'
+        required: true
+        schema:
+          type: string
+          enum: [ a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z]
+          example: 
+            'a'
+      responses:
+        200: 
+          description: 'Suggestion response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuggestionResponse'
+        400:
+          description: 'Unknown game'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    GetGameResponse:
+      type: object
+      properties:
+        gameState:
+          $ref: '#/components/schemas/GameState'
+        urlToSuggestLetter:
+          type: string
+          format: uri
+          example:
+            'http://localhost/game/036c5abc-8dbd-11eb-8dcd-0242ac130003'
+    SuggestionResponse:
+      type: object
+      properties:
+        lastSuggestedLetter:
+          type: string
+          minLength: 1
+          maxLength: 1
+          example: 
+            'a'
+        letterFound:
+          type: boolean
+          example:
+            true
+        gameState: 
+          $ref: '#/components/schemas/GameState'
+    GameState:
+      type: object
+      properties:
+        state:
+          type: string
+          enum: [inProgress, won, loose]
+        wordMask:
+          type: string
+          example: 
+            -a---a-
+        suggestedLetters:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 1
+          example: 
+            [a, s]
+        hangman:
+          $ref: '#/components/schemas/Hangman'
+    Hangman:
+      type: object
+      properties:
+        step:
+          type: integer
+          minimum: 0
+          maximum: 7
+          example:
+            0
+    Error: 
+      type: object
+      properties:
+        code:
+          type: integer
+          example:
+            100
+        message:
+          type: string
+          example:
+            'Error during game instantiation'
+
+
+
