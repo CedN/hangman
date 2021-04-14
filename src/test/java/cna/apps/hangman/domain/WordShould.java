@@ -48,6 +48,7 @@ public class WordShould {
     String maskedWord = word.getMask();
     word.tryLetter('z');
     assertEquals(maskedWord, word.getMask());
+    assertFalse(word.getHangMan().isEmpty());
     assertEquals(1, word.getHangMan().getStep());
   }
 
