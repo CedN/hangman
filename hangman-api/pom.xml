@@ -14,6 +14,13 @@
 		<junit-jupiter.version>5.7.1</junit-jupiter.version>
 	</properties>
 	<dependencies>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>specifications</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
