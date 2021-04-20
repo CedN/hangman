@@ -8,6 +8,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 public class GameResource implements GameApi {
 
+  private final GameRepository gameRepository;
+
+  public GameResource(GameRepository gameRepository) {
+    this.gameRepository = gameRepository;
+  }
+
   @Override
   public ResponseEntity<Void> createGame() {
     URI location = computeNewGameLocation();
@@ -20,6 +26,15 @@ public class GameResource implements GameApi {
       .path("/{gameId}")
       .buildAndExpand(UUID.randomUUID())
       .toUri();
+  }
+
+  @Override
+  public ResponseEntity<GetGameResponse> fetchGame(String gameId) {
+    var gameHolder = gameRepository.getGameHolder(gameId);
+    if (gameHolder == null) {
+      return ResponseEntity.badRequest().build();
+    }
+    return ResponseEntity.ok(gameHolder.computeGetGameResponse());
   }
   
 }
