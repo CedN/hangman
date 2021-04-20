@@ -1,7 +1,6 @@
 package cna.apps.hangman.api;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;

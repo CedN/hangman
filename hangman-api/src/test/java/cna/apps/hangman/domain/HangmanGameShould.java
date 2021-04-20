@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 
 import cna.apps.hangman.provider.WordList;
 
-public class GameShould {
+public class HangmanGameShould {
   
   @Test
   void choose_word() {
-    Game game = new Game(new WordList("hangman"));
+    HangmanGame game = new HangmanGame(new WordList("hangman"));
     assertNotNull(game.chooseWord());
   }  
 

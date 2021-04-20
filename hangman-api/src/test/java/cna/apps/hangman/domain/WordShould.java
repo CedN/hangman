@@ -26,7 +26,7 @@ public class WordShould {
   }
 
   @Test
-  void return_mask_with_letter_h_for_hangman_word_when_try_with_letter_h() throws GameOverException {
+  void return_mask_with_letter_h_for_hangman_word_when_try_with_letter_h() throws Exception {
     String wordToGuess = "hangman";
     Word word = new Word(wordToGuess);
     word.tryLetter('h');
@@ -34,7 +34,7 @@ public class WordShould {
   }
 
   @Test
-  void return_mask_with_all_letter_a_for_hangman_word_when_try_with_letter_a() throws GameOverException {
+  void return_mask_with_all_letter_a_for_hangman_word_when_try_with_letter_a() throws Exception {
     String wordToGuess = "hangman";
     Word word = new Word(wordToGuess);
     word.tryLetter('a');
@@ -42,7 +42,7 @@ public class WordShould {
   }
 
   @Test
-  void let_the_mask_unchanged_when_try_letter_z_for_hangman_word_with_step_one_of_hangman() throws GameOverException {
+  void let_the_mask_unchanged_when_try_letter_z_for_hangman_word_with_step_one_of_hangman() throws Exception {
     String wordToGuess = "hangman";
     Word word = new Word(wordToGuess);
     String maskedWord = word.getMask();
@@ -53,7 +53,7 @@ public class WordShould {
   }
 
   @Test
-  void return_true_if_word_to_guess_is_hangman_and_the_proposal_is_hangman_too() throws GameOverException {
+  void return_true_if_word_to_guess_is_hangman_and_the_proposal_is_hangman_too() throws Exception {
     String wordToGuess = "hangman";
     Word word = new Word(wordToGuess);
     String proposal = wordToGuess;
@@ -61,16 +61,16 @@ public class WordShould {
   }
 
   @Test
-  void return_false_and_hangman_at_step_one_if_word_to_guess_is_hangman_while_the_proposal_is_not_hangman() throws GameOverException {
+  void return_false_and_hangman_at_step_one_if_word_to_guess_is_hangman_while_the_proposal_is_not_hangman() throws Exception {
     String wordToGuess = "hangman";
     Word word = new Word(wordToGuess);
-    String proposal = "not hangman";
+    String proposal = "hello";
     assertFalse(word.isTheGoodWord(proposal));
     assertEquals(1, word.getHangMan().getStep());
   }
 
   @Test
-  void return_true_if_word_to_guess_is_hello_and_the_proposal_is_hello_too() throws GameOverException {
+  void return_true_if_word_to_guess_is_hello_and_the_proposal_is_hello_too() throws Exception {
     String wordToGuess = "hello";
     Word word = new Word(wordToGuess);
     String proposal = wordToGuess;
@@ -78,7 +78,7 @@ public class WordShould {
   }
 
   @Test
-  void throw_game_over_exception_at_the_7th_letter_failure_with_hangman_at_step_7() throws GameOverException {
+  void throw_GameOverException_at_the_7th_letter_failure_with_hangman_at_step_7() throws Exception {
     String wordToGuess = "hangman";
     Word word = new Word(wordToGuess);
     word.tryLetter('q');
@@ -87,7 +87,47 @@ public class WordShould {
     word.tryLetter('r');
     word.tryLetter('t');
     word.tryLetter('y');
-    assertThrows(GameOverException.class, () -> word.tryLetter('u'));
+    GameOverException exception = assertThrows(GameOverException.class, () -> word.tryLetter('u'));
+    assertEquals("hangman", exception.getWordToGuess());
     assertEquals(7, word.getHangMan().getStep());
+  }
+
+  @Test
+  void throw_GameOverException_when_propose_wrong_word_after_6_wrong_letters() throws Exception {
+    String wordToGuess = "hangman";
+    Word word = new Word(wordToGuess);
+    word.tryLetter('q');
+    word.tryLetter('w');
+    word.tryLetter('e');
+    word.tryLetter('r');
+    word.tryLetter('t');
+    word.tryLetter('y');
+    GameOverException exception = assertThrows(GameOverException.class, () -> word.isTheGoodWord("hello"));
+    assertEquals("hangman", exception.getWordToGuess());
+    assertEquals(7, word.getHangMan().getStep());
+  }
+
+  @Test
+  void throw_GameAlreadyWonException_when_word_to_guess_has_been_discovered_and_try_a_letter() throws Exception {
+    String wordToGuess = "hangman";
+    Word word = new Word(wordToGuess);
+    word.tryLetter('h');
+    word.tryLetter('a');
+    word.tryLetter('n');
+    word.tryLetter('g');
+    word.tryLetter('m');
+    assertThrows(GameAlreadyWonException.class, () -> word.tryLetter('a'));
+  }
+
+  @Test
+  void throw_GameAlreadyWonException_when_word_to_guess_has_been_discovered_and_propose_a_word() throws Exception {
+    String wordToGuess = "hangman";
+    Word word = new Word(wordToGuess);
+    word.tryLetter('h');
+    word.tryLetter('a');
+    word.tryLetter('n');
+    word.tryLetter('g');
+    word.tryLetter('m');
+    assertThrows(GameAlreadyWonException.class, () -> word.isTheGoodWord("hangman"));
   }
 }

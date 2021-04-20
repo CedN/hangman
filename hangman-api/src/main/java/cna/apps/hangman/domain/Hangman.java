@@ -16,10 +16,10 @@ public class Hangman {
     return step;
   }
 
-  public void increaseStep() throws GameOverException {
+  public void increaseStep() throws CompletedHangmanException {
     step++;
     if (step == LAST_STEP) {
-      throw new GameOverException();
+      throw new CompletedHangmanException();
     }
   }
 

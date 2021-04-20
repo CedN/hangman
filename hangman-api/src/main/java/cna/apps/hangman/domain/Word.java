@@ -7,7 +7,7 @@ public class Word {
   private final String wordToGuess;
 
   private final Hangman hangman;
-  
+
   private String letterFounds;
 
   public Word(String wordToGuess) {
@@ -34,17 +34,33 @@ public class Word {
     return UNKNOWN_LETTER;
   }
 
-  public void tryLetter(char c) throws GameOverException {
+  public void tryLetter(char c) throws GameOverException, GameAlreadyWonException {
+    assertGameNotAlreaydWon();
     if (wordToGuess.indexOf(c) == -1) {
-      hangman.increaseStep();
+      increaseHangman();
     }
     letterFounds = letterFounds + c;
   }
 
-  public boolean isTheGoodWord(String proposal) throws GameOverException {
+  private void assertGameNotAlreaydWon() throws GameAlreadyWonException {
+    if (getMask().equals(wordToGuess)) {
+      throw new GameAlreadyWonException();
+    }
+  }
+
+  private void increaseHangman() throws GameOverException {
+    try {
+      hangman.increaseStep();
+    } catch (CompletedHangmanException e) {
+      throw new GameOverException(wordToGuess);
+    }
+  }
+
+  public boolean isTheGoodWord(String proposal) throws GameOverException, GameAlreadyWonException {
+    assertGameNotAlreaydWon();
     boolean theGoodWord = wordToGuess.equals(proposal);
     if (!theGoodWord) {
-      hangman.increaseStep();
+      increaseHangman();
     }
     return theGoodWord;
   }

@@ -1,10 +1,10 @@
 package cna.apps.hangman.domain;
 
-public class Game {
+public class HangmanGame {
 
   private final WordProvider wordProvider;
 
-  public Game(WordProvider wordProvider) {
+  public HangmanGame(WordProvider wordProvider) {
     this.wordProvider = wordProvider;
   }
 
