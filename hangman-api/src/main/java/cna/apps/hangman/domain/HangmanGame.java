@@ -8,7 +8,7 @@ public class HangmanGame {
     this.wordProvider = wordProvider;
   }
 
-  public Word chooseWord() {
+  public Game startNewGame() {
     return new Word(wordProvider.provide());
   }
 

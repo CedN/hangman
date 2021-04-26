@@ -1,6 +1,6 @@
 package cna.apps.hangman.domain;
 
-public class Word {
+public class Word implements Game {
 
   private static final Character UNKNOWN_LETTER = Character.valueOf('-');
 

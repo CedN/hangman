@@ -9,9 +9,9 @@ import cna.apps.hangman.provider.WordList;
 public class HangmanGameShould {
   
   @Test
-  void choose_word() {
-    HangmanGame game = new HangmanGame(new WordList("hangman"));
-    assertNotNull(game.chooseWord());
+  void start_new_game() {
+    HangmanGame hangmanGame = new HangmanGame(new WordList("hangman"));
+    assertNotNull(hangmanGame.startNewGame());
   }  
 
 }
