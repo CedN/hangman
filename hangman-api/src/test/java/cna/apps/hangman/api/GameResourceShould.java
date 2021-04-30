@@ -5,19 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
-import java.util.Set;
 import java.util.UUID;
-import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -91,27 +82,18 @@ public class GameResourceShould {
 
     @Test
     void return_game_status_from_a_new_game() {
-      String gameId = givenNewGame();
+      String gameId = givenNewGame("---");
       givenHttpServletRequest(HttpMethod.GET, GAME_RESOURCE_URI + '/' + gameId);
       var response = gameResourceUnderTest.fetchGame(gameId);
       assertEquals(HttpStatus.OK, response.getStatusCode());
       assertNotNull(response.getBody());
-      assertGetGameResponse(response.getBody());
+      GetGameResponseAssertions.assertGetGameResponse(response.getBody());
     }
 
-    private String givenNewGame() {
-      GameHolder gameHolder = new GameHolder();
+    private String givenNewGame(String mask) {
+      GameHolder gameHolder = new GameHolder(new NewlyCreatedGame(mask));
       gameRepository.addGameHolder(gameHolder);
       return gameHolder.getGameId();
-    }
-
-    private void assertGetGameResponse(GetGameResponse getGameResponse) {
-      ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-      Validator validator = factory.getValidator();
-      Set<ConstraintViolation<GetGameResponse>> violations = validator.validate(getGameResponse);
-      if (!violations.isEmpty()) {
-        fail(violations.stream().map(violation -> violation.getMessage()).collect(Collectors.joining(" ++ ")));
-      }
     }
 
   }

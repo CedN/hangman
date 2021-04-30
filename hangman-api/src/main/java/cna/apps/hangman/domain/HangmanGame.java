@@ -2,14 +2,71 @@ package cna.apps.hangman.domain;
 
 public class HangmanGame {
 
-  private final WordProvider wordProvider;
+  private static final Character UNKNOWN_LETTER = Character.valueOf('-');
 
-  public HangmanGame(WordProvider wordProvider) {
-    this.wordProvider = wordProvider;
+  private final String wordToGuess;
+
+  private final Hangman hangman;
+
+  private String letterFounds;
+
+  public HangmanGame(String wordToGuess) {
+    this.wordToGuess = wordToGuess;
+    hangman = new Hangman();
+    letterFounds = "";
   }
 
-  public Game startNewGame() {
-    return new Word(wordProvider.provide());
+  public String getMask() {
+    return wordToGuess
+      .codePoints()
+      .mapToObj(c -> (char) c)
+      .map(this::maskLettersNotFound)
+      .collect(
+        StringBuilder::new, 
+        StringBuilder::append, 
+        StringBuilder::append)
+      .toString();
+  }
+
+  private char maskLettersNotFound(char c) {
+    if (letterFounds.indexOf(c) != -1)
+      return c;
+    return UNKNOWN_LETTER;
+  }
+
+  public void tryLetter(char c) throws GameOverException, GameAlreadyWonException {
+    assertGameNotAlreaydWon();
+    if (wordToGuess.indexOf(c) == -1) {
+      increaseHangman();
+    }
+    letterFounds = letterFounds + c;
+  }
+
+  private void assertGameNotAlreaydWon() throws GameAlreadyWonException {
+    if (getMask().equals(wordToGuess)) {
+      throw new GameAlreadyWonException();
+    }
+  }
+
+  private void increaseHangman() throws GameOverException {
+    try {
+      hangman.increaseStep();
+    } catch (CompletedHangmanException e) {
+      throw new GameOverException(wordToGuess);
+    }
+  }
+
+  public boolean isTheGoodWord(String proposal) throws GameOverException, GameAlreadyWonException {
+    assertGameNotAlreaydWon();
+    boolean theGoodWord = wordToGuess.equals(proposal);
+    if (!theGoodWord) {
+      increaseHangman();
+    }
+    return theGoodWord;
+  }
+
+  public Hangman getHangMan() {
+    return hangman;
   }
 
 }

@@ -1,4 +1,8 @@
-package cna.apps.hangman.domain;
+package cna.apps.hangman.api;
+
+import cna.apps.hangman.domain.GameAlreadyWonException;
+import cna.apps.hangman.domain.GameOverException;
+import cna.apps.hangman.domain.Hangman;
 
 public interface Game {
   

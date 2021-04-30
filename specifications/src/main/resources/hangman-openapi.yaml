@@ -84,6 +84,9 @@ components:
           format: uri
           example:
             'http://localhost/game/036c5abc-8dbd-11eb-8dcd-0242ac130003'
+      required:
+        - gameState
+        - urlToSuggestLetter
     SuggestionResponse:
       type: object
       properties:
@@ -119,15 +122,22 @@ components:
             [a, s]
         hangman:
           $ref: '#/components/schemas/Hangman'
+      required:
+        - state
+        - wordMask
+        - suggestedLetters
+        - hangman
     Hangman:
       type: object
       properties:
-        step:
+        remainingTries:
           type: integer
           minimum: 0
           maximum: 7
           example:
-            0
+            7
+      required:
+        - step
     Error: 
       type: object
       properties:
