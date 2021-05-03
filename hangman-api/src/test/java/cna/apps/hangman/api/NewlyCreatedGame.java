@@ -1,8 +1,7 @@
 package cna.apps.hangman.api;
 
-import cna.apps.hangman.domain.GameAlreadyWonException;
-import cna.apps.hangman.domain.GameOverException;
-import cna.apps.hangman.domain.Hangman;
+import cna.apps.hangman.domain.core.GameOverException;
+import cna.apps.hangman.domain.core.Hangman;
 
 public class NewlyCreatedGame implements Game {
 
@@ -18,12 +17,12 @@ public class NewlyCreatedGame implements Game {
   }
 
   @Override
-  public void tryLetter(char c) throws GameOverException, GameAlreadyWonException {
+  public void tryLetter(char c) throws GameOverException {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public boolean isTheGoodWord(String proposal) throws GameOverException, GameAlreadyWonException {
+  public boolean isTheGoodWord(String proposal) throws GameOverException {
     throw new UnsupportedOperationException();
   }
 

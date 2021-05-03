@@ -1,6 +1,5 @@
 package cna.apps.hangman.api;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Set;
