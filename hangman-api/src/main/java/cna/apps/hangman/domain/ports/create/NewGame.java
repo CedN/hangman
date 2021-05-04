@@ -1,20 +1,22 @@
 package cna.apps.hangman.domain.ports.create;
 
+import java.util.UUID;
+
 public class NewGame {
 
-  private final String id;
+  private final UUID id;
   private final String mask;
 
-  public NewGame(String id, String mask) {
+  public NewGame(UUID id, String mask) {
     this.id = id;
     this.mask = mask;
   }
 
-	public String getId() {
+	public UUID getId() {
 		return id;
 	}
 
-  public Object getMask() {
+  public String getMask() {
     return mask;
   }
 
