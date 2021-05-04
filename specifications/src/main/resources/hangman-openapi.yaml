@@ -9,38 +9,15 @@ paths:
       summary: 'Create a new game'
       operationId: createGame
       responses:
-        201:
-          description: 'New game created'
-          headers:
-            location:
-              schema:
-                type: string
-                format: url
-                example: 
-                  'http://localhost/game/036c5abc-8dbd-11eb-8dcd-0242ac130003'
-  /game/{gameId}:
-    get:
-      summary: 'Get game state'
-      operationId: fetchGame
-      parameters:
-      - name: gameId
-        in: path
-        description: 'ID of game'
-        required: true
-        schema:
-          type: string
-          example: 
-            '036c5abc-8dbd-11eb-8dcd-0242ac130003'
-      responses:
         200:
-          description: 'State of game'
+          description: 'New game created'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetGameResponse'
-  /game/{gameId}/suggestion/{letter}: 
+                $ref: '#/components/schemas/NewGameResponse'
+  /game/{gameId}/proposal/{letter}: 
     put:
-      summary: 'Suggests a letter'
+      summary: 'Propose a letter'
       parameters:
       - name: gameId
         in: path
@@ -52,7 +29,7 @@ paths:
             '036c5abc-8dbd-11eb-8dcd-0242ac130003'
       - name: letter
         in: path
-        description: 'Suggested letter'
+        description: 'Proposed letter'
         required: true
         schema:
           type: string
@@ -61,11 +38,11 @@ paths:
             'a'
       responses:
         200: 
-          description: 'Suggestion response'
+          description: 'Proposal response'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuggestionResponse'
+                $ref: '#/components/schemas/ProposalResponse'
         400:
           description: 'Unknown game'
           content:
@@ -74,23 +51,23 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    GetGameResponse:
+    NewGameResponse:
       type: object
       properties:
-        gameState:
-          $ref: '#/components/schemas/GameState'
-        urlToSuggestLetter:
+        gameId:
+          description: 'ID of game'
           type: string
-          format: uri
+          example: 
+            '036c5abc-8dbd-11eb-8dcd-0242ac130003'
+        mask:
+          description: 'Masked word to guess'
+          type: string
           example:
-            'http://localhost/game/036c5abc-8dbd-11eb-8dcd-0242ac130003'
-      required:
-        - gameState
-        - urlToSuggestLetter
-    SuggestionResponse:
+            '--------'
+    ProposalResponse:
       type: object
       properties:
-        lastSuggestedLetter:
+        ProposedLetter:
           type: string
           minLength: 1
           maxLength: 1
@@ -100,44 +77,19 @@ components:
           type: boolean
           example:
             true
-        gameState: 
-          $ref: '#/components/schemas/GameState'
-    GameState:
-      type: object
-      properties:
-        state:
+        gameState:
           type: string
           enum: [inProgress, won, loose]
-        wordMask:
+        maskedWord:
           type: string
           example: 
             -a---a-
-        suggestedLetters:
-          type: array
-          items:
-            type: string
-            minLength: 1
-            maxLength: 1
-          example: 
-            [a, s]
-        hangman:
-          $ref: '#/components/schemas/Hangman'
-      required:
-        - state
-        - wordMask
-        - suggestedLetters
-        - hangman
-    Hangman:
-      type: object
-      properties:
-        remainingTries:
+        hangmanStep:
           type: integer
           minimum: 0
           maximum: 7
           example:
-            7
-      required:
-        - step
+            0
     Error: 
       type: object
       properties:
@@ -149,6 +101,3 @@ components:
           type: string
           example:
             'Error during game instantiation'
-
-
-
