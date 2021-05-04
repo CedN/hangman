@@ -1,9 +1,9 @@
-package cna.apps.hangman.provider;
+package cna.apps.hangman.adapters;
 
 import java.util.HashMap;
 import java.util.UUID;
 
-import cna.apps.hangman.domain.core.HangmanGame;
+import cna.apps.hangman.domain.entities.HangmanGame;
 import cna.apps.hangman.domain.ports.GameRepository;
 
 public class InMemoryGameRepository implements GameRepository {

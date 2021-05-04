@@ -1,4 +1,4 @@
-package cna.apps.hangman.domain.core;
+package cna.apps.hangman.domain.entities;
 
 public class GameOverException extends Exception {
   private static final long serialVersionUID = 1L;

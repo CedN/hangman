@@ -2,20 +2,20 @@ package cna.apps.hangman.domain.usecases;
 
 import java.util.UUID;
 
-import cna.apps.hangman.domain.core.HangmanGame;
+import cna.apps.hangman.domain.entities.HangmanGame;
+import cna.apps.hangman.domain.ports.GameRepository;
 import cna.apps.hangman.domain.ports.WordProvider;
 import cna.apps.hangman.domain.ports.create.CreateHangmanGameInputBoundary;
 import cna.apps.hangman.domain.ports.create.NewGame;
 import cna.apps.hangman.domain.ports.create.NewGameOutputBoundary;
-import cna.apps.hangman.provider.InMemoryGameRepository;
 
 public class CreateHangmanGame implements CreateHangmanGameInputBoundary {
 
   private final WordProvider wordProvider;
   private final NewGameOutputBoundary presenter;
-  private final InMemoryGameRepository gameRepository;
+  private final GameRepository gameRepository;
 
-  public CreateHangmanGame(WordProvider wordProvider, InMemoryGameRepository gameRepository, NewGameOutputBoundary presenter) {
+  public CreateHangmanGame(WordProvider wordProvider, GameRepository gameRepository, NewGameOutputBoundary presenter) {
     this.wordProvider = wordProvider;
     this.gameRepository = gameRepository;
     this.presenter = presenter;

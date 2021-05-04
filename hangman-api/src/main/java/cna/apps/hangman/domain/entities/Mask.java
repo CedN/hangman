@@ -1,4 +1,4 @@
-package cna.apps.hangman.domain.core;
+package cna.apps.hangman.domain.entities;
 
 class Mask {
 

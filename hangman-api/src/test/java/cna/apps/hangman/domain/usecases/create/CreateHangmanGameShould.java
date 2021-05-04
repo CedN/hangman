@@ -12,13 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import cna.apps.hangman.domain.core.HangmanGame;
+import cna.apps.hangman.adapters.InMemoryGameRepository;
+import cna.apps.hangman.adapters.WordList;
+import cna.apps.hangman.domain.entities.HangmanGame;
 import cna.apps.hangman.domain.ports.GameRepository;
 import cna.apps.hangman.domain.ports.create.CreateHangmanGameInputBoundary;
 import cna.apps.hangman.domain.ports.create.NewGame;
 import cna.apps.hangman.domain.usecases.CreateHangmanGame;
-import cna.apps.hangman.provider.InMemoryGameRepository;
-import cna.apps.hangman.provider.WordList;
 
 public class CreateHangmanGameShould {
   

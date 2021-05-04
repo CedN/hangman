@@ -2,7 +2,7 @@ package cna.apps.hangman.domain.ports;
 
 import java.util.UUID;
 
-import cna.apps.hangman.domain.core.HangmanGame;
+import cna.apps.hangman.domain.entities.HangmanGame;
 
 public interface GameRepository {
 

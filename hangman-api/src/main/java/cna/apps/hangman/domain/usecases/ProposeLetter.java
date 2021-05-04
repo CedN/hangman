@@ -2,9 +2,9 @@ package cna.apps.hangman.domain.usecases;
 
 import java.util.UUID;
 
-import cna.apps.hangman.domain.core.GameOverException;
-import cna.apps.hangman.domain.core.HangmanGame;
-import cna.apps.hangman.domain.core.MoveResult;
+import cna.apps.hangman.domain.entities.GameOverException;
+import cna.apps.hangman.domain.entities.HangmanGame;
+import cna.apps.hangman.domain.entities.MoveResult;
 import cna.apps.hangman.domain.ports.GameRepository;
 import cna.apps.hangman.domain.ports.proposal.GameOver;
 import cna.apps.hangman.domain.ports.proposal.LetterProposalOutputBoundary;

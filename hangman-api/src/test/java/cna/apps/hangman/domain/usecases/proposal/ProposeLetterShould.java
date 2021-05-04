@@ -17,9 +17,9 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import cna.apps.hangman.adapters.InMemoryGameRepository;
 import cna.apps.hangman.domain.ports.GameRepository;
 import cna.apps.hangman.domain.usecases.ProposeLetter;
-import cna.apps.hangman.provider.InMemoryGameRepository;
 
 public class ProposeLetterShould {
   /**

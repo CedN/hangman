@@ -1,6 +1,6 @@
 package cna.apps.hangman.domain.ports.proposal;
 
-import cna.apps.hangman.domain.core.GameOverException;
+import cna.apps.hangman.domain.entities.GameOverException;
 
 public class GameOver {
 

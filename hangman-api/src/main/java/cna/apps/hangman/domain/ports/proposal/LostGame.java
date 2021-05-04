@@ -1,6 +1,6 @@
 package cna.apps.hangman.domain.ports.proposal;
 
-import cna.apps.hangman.domain.core.WordToGuess;
+import cna.apps.hangman.domain.entities.WordToGuess;
 
 public class LostGame {
 

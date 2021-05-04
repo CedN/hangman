@@ -1,4 +1,4 @@
-package cna.apps.hangman.provider;
+package cna.apps.hangman.adapters;
 
 import java.util.Arrays;
 

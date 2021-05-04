@@ -1,7 +1,7 @@
-package cna.apps.hangman.domain.core;
+package cna.apps.hangman.domain.entities;
 
-import static cna.apps.hangman.domain.core.MoveResult.LOST_GAME;
-import static cna.apps.hangman.domain.core.MoveResult.WRONG;
+import static cna.apps.hangman.domain.entities.MoveResult.LOST_GAME;
+import static cna.apps.hangman.domain.entities.MoveResult.WRONG;
 
 public class Hangman {
 
