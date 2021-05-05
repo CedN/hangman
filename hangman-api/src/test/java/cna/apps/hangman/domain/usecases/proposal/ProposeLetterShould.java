@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import cna.apps.hangman.adapters.InMemoryGameRepository;
+import cna.apps.hangman.domain.entities.MoveResult;
 import cna.apps.hangman.domain.ports.GameRepository;
 import cna.apps.hangman.domain.usecases.ProposeLetter;
 
@@ -41,30 +42,34 @@ public class ProposeLetterShould {
 
   @Test
   void add_letter_h_to_the_mask_if_the_word_to_guess_is_hangman() {
+    char proposedLetter = 'h';
     var gameId = givenNewGame(gameRepository, HANGMAN);
-    proposeLetter.tryLetter(gameId, 'h');
-    assertProgressingGame(presenter.getProgressingGame(), HANGMAN_MASK_WITH_H, EMPTY_HANGMAN);
+    proposeLetter.tryLetter(gameId, proposedLetter);
+    assertProgressingGame(presenter.getProgressingGame(), HANGMAN_MASK_WITH_H, EMPTY_HANGMAN, MoveResult.GOOD, proposedLetter);
   }
 
   @Test
   void add_all_letters_a_to_the_mask_if_the_word_to_guess_is_hangman() {
+    char proposedLetter = 'a';
     var gameId = givenNewGame(gameRepository, HANGMAN);
-    proposeLetter.tryLetter(gameId, 'a');
-    assertProgressingGame(presenter.getProgressingGame(), HANGMAN_MASK_WITH_A, EMPTY_HANGMAN);
+    proposeLetter.tryLetter(gameId, proposedLetter);
+    assertProgressingGame(presenter.getProgressingGame(), HANGMAN_MASK_WITH_A, EMPTY_HANGMAN, MoveResult.GOOD, proposedLetter);
   }
 
   @Test
   void let_the_mask_unchanged_and_set_hangman_at_step_1_when_propose_letter_z_if_the_word_to_guess_is_hangman() {
+    char proposedLetter = 'z';
     var gameId = givenNewGame(gameRepository, HANGMAN);
-    proposeLetter.tryLetter(gameId, 'z');
-    assertProgressingGame(presenter.getProgressingGame(), HANGMAN_MASK, HANGMAN_AT_STEP_1);
+    proposeLetter.tryLetter(gameId, proposedLetter);
+    assertProgressingGame(presenter.getProgressingGame(), HANGMAN_MASK, HANGMAN_AT_STEP_1, MoveResult.WRONG, proposedLetter);
   }
 
   @Test
   void increased_hangman_when_propose_a_good_letter_already_proposed() {
+    char proposedLetter = 'a';
     var gameId = givenNewGame(gameRepository, HANGMAN);
-    proposeLetters(gameId, 'a', 'a');
-    assertProgressingGame(presenter.getProgressingGame(), HANGMAN_MASK_WITH_A, HANGMAN_AT_STEP_1);
+    proposeLetters(gameId, proposedLetter, proposedLetter);
+    assertProgressingGame(presenter.getProgressingGame(), HANGMAN_MASK_WITH_A, HANGMAN_AT_STEP_1, MoveResult.WRONG, proposedLetter);
   }
 
   private void proposeLetters(UUID gameId, Character... letters) {

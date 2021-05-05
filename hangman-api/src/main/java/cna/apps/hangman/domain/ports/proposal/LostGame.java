@@ -7,8 +7,10 @@ public class LostGame {
   private final String wordToGuess;
   private final int hangmanStep;
   private final String mask;
+  private final String message;
 
-  public LostGame(WordToGuess wordToGuess, int hangmanStep, String mask) {
+  public LostGame(String message, WordToGuess wordToGuess, int hangmanStep, String mask) {
+    this.message = message;
     this.wordToGuess = wordToGuess.getValue();
     this.hangmanStep = hangmanStep;
     this.mask = mask;
@@ -24,6 +26,10 @@ public class LostGame {
 
   public String getMask() {
     return mask;
+  }
+
+  public String getMessage() {
+    return message;
   }
 
 }

@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import cna.apps.hangman.adapters.InMemoryGameRepository;
 import cna.apps.hangman.adapters.WordList;
 import cna.apps.hangman.domain.entities.HangmanGame;
-import cna.apps.hangman.domain.ports.GameRepository;
 import cna.apps.hangman.domain.ports.create.CreateHangmanGameInputBoundary;
 import cna.apps.hangman.domain.ports.create.NewGame;
 import cna.apps.hangman.domain.usecases.CreateHangmanGame;
