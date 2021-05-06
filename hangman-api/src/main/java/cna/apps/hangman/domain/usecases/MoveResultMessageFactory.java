@@ -14,9 +14,9 @@ public class MoveResultMessageFactory {
     MoveResult.WON_GAME, "You won the game!"
   );
 
-  public String createMessage(MoveResult moveResult, char letter, WordToGuess wordToGuess) {
+  public String createMessage(MoveResult moveResult, Object... parameters) {
     String messagePattern = MOVE_RESULT_MESSAGE_PATTERN.get(moveResult);
-    return String.format(messagePattern, letter, wordToGuess);
+    return String.format(messagePattern, parameters);
   }
 
 }

@@ -2,6 +2,7 @@ package cna.apps.hangman.adapters.proposal;
 
 import static cna.apps.hangman.api.ProposalResponse.GameStateEnum.INPROGRESS;
 import static cna.apps.hangman.api.ProposalResponse.GameStateEnum.LOOSE;
+import static cna.apps.hangman.api.ProposalResponse.GameStateEnum.WON;
 
 import cna.apps.hangman.api.ProposalResponse;
 import cna.apps.hangman.domain.ports.proposal.GameOver;
@@ -34,8 +35,11 @@ public class LetterProposedPresenter implements LetterProposalOutputBoundary {
 
   @Override
   public void wonGame(WonGame wonGame) {
-    // TODO Auto-generated method stub
-    
+    proposalResponse = new ProposalResponse();
+    proposalResponse.gameState(WON);
+    proposalResponse.hangmanStep(wonGame.getHangmanStep());
+    proposalResponse.maskedWord(wonGame.getMask());
+    proposalResponse.setMessage(wonGame.getMessage());
   }
 
   @Override

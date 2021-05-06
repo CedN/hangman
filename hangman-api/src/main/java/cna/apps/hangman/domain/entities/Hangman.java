@@ -11,6 +11,14 @@ public class Hangman {
 
   private int step = INITIAL_STEP;
 
+  public Hangman() {
+    this(INITIAL_STEP);
+  }
+
+  public Hangman(int step) {
+    this.step = step; 
+  }
+
   public int getStep() {
     return step;
   }

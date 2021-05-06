@@ -2,6 +2,7 @@ package cna.apps.hangman.tech;
 
 import static cna.apps.hangman.api.ProposalResponse.GameStateEnum.INPROGRESS;
 import static cna.apps.hangman.api.ProposalResponse.GameStateEnum.LOOSE;
+import static cna.apps.hangman.api.ProposalResponse.GameStateEnum.WON;
 import static cna.apps.hangman.tech.ProposalResponseAssertions.assertProposalResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -78,6 +79,16 @@ public class GameResourceShould {
     ResponseEntity<ProposalResponse> response = gameResource.proposeLetter(GAME_ID.toString(), proposedLetter);
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertProposalResponse(response.getBody(), MASKED_WORD_HANGMAN, FINAL_HANGMAN_STEP, LOOSE, message);
+  }
+
+  @Test
+  void return_game_won_response() {
+    String proposedLetter = "g";
+    String message = "You won the game!";
+    fakeProposeLetter.setGameWon(message, WORD_HANGMAN, INITIAL_HANGMAN_STEP);
+    ResponseEntity<ProposalResponse> response = gameResource.proposeLetter(GAME_ID.toString(), proposedLetter);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertProposalResponse(response.getBody(), WORD_HANGMAN, INITIAL_HANGMAN_STEP, WON, message);
   }
   
 }

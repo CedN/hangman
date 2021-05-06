@@ -5,11 +5,11 @@ import static cna.apps.hangman.domain.usecases.WordFixtures.HANGMAN;
 import static cna.apps.hangman.domain.usecases.WordFixtures.HANGMAN_MASK;
 import static cna.apps.hangman.domain.usecases.WordFixtures.HANGMAN_MASK_WITH_A;
 import static cna.apps.hangman.domain.usecases.WordFixtures.HANGMAN_MASK_WITH_H;
+import static cna.apps.hangman.domain.usecases.proposal.LetterProposalAssertions.assertLostGame;
 import static cna.apps.hangman.domain.usecases.proposal.LetterProposalAssertions.assertProgressingGame;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static cna.apps.hangman.domain.usecases.proposal.LetterProposalAssertions.assertWonGame;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static cna.apps.hangman.domain.usecases.proposal.LetterProposalAssertions.assertLostGame;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import cna.apps.hangman.adapters.InMemoryGameRepository;
 import cna.apps.hangman.domain.entities.MoveResult;
+import cna.apps.hangman.domain.entities.WordToGuess;
 import cna.apps.hangman.domain.ports.GameRepository;
 import cna.apps.hangman.domain.usecases.ProposeLetter;
 
@@ -78,10 +79,11 @@ public class ProposeLetterShould {
 
   @Test
   void indicate_the_game_is_lose_after_7_wrong_letter_proposal() {
+    char proposedLetter = 'u';
     var gameId = givenNewGame(gameRepository, HANGMAN);
     proposeLetters(gameId, 'q', 'w', 'e', 'r', 't', 'y', 'u');
     var lostGame = presenter.getLostGame();
-    assertLostGame(lostGame, HANGMAN_MASK, FULL_HANGMAN, HANGMAN);
+    assertLostGame(lostGame, HANGMAN_MASK, FULL_HANGMAN, new WordToGuess(HANGMAN), proposedLetter);
   }
 
   @Test
@@ -89,8 +91,7 @@ public class ProposeLetterShould {
     var gameId = givenNewGame(gameRepository, HANGMAN);
     proposeLetters(gameId, 'h', 'a', 'n', 'g', 'm');
     var wonGame = presenter.getWonGame();
-    assertEquals(HANGMAN, wonGame.getMask());
-    assertTrue(wonGame.getHangmanStep() < FULL_HANGMAN);
+    assertWonGame(wonGame, new WordToGuess(HANGMAN)); 
   }
 
   @Test

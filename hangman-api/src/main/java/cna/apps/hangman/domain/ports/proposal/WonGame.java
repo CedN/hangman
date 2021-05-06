@@ -4,8 +4,10 @@ public class WonGame {
 
 	private final String mask;
 	private final int hangmanStep;
+	private final String message;
 
-	public WonGame(String mask, int hangmanStep) {
+	public WonGame(String message, String mask, int hangmanStep) {
+		this.message = message;
 		this.mask = mask;
 		this.hangmanStep = hangmanStep;
 	}
@@ -17,5 +19,9 @@ public class WonGame {
 	public int getHangmanStep() {
 		return hangmanStep;
 	}
+
+  public String getMessage() {
+    return message;
+  }
 
 }

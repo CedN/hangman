@@ -53,7 +53,7 @@ public class ProposeLetter implements ProposeLetterInputBoundary {
             new LostGame(message, hangmanGame.getWordToGuess(), hangmanGame.getHangMan().getStep(), hangmanGame.getMask()));
         break;
       case WON_GAME:
-        presenter.wonGame(new WonGame(hangmanGame.getMask(), hangmanGame.getHangMan().getStep()));  
+        presenter.wonGame(new WonGame(message, hangmanGame.getMask(), hangmanGame.getHangMan().getStep()));  
     }
   }
 

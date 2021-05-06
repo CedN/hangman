@@ -7,6 +7,7 @@ import cna.apps.hangman.domain.ports.proposal.LetterProposalOutputBoundary;
 import cna.apps.hangman.domain.ports.proposal.LostGame;
 import cna.apps.hangman.domain.ports.proposal.ProgressingGame;
 import cna.apps.hangman.domain.ports.proposal.ProposeLetterInputBoundary;
+import cna.apps.hangman.domain.ports.proposal.WonGame;
 
 public class FakeProposeLetter implements ProposeLetterInputBoundary {
 
@@ -40,6 +41,13 @@ public class FakeProposeLetter implements ProposeLetterInputBoundary {
     this.hangmanStep = 7;
   }
 
+  public void setGameWon(String message, String mask, int hangmanStep) {
+    this.gameStatus = GameStatus.WON;
+    this.message = message;
+    this.mask = mask;
+    this.hangmanStep = hangmanStep;
+  }
+
   @Override
   public void tryLetter(UUID gameId, char c) {
     switch (gameStatus) {
@@ -50,6 +58,7 @@ public class FakeProposeLetter implements ProposeLetterInputBoundary {
         presenter.lostGame(new LostGame(message, new WordToGuess(wordToGuess), hangmanStep, mask));
         break;
       case WON:
+        presenter.wonGame(new WonGame(message, mask, hangmanStep));
         break;
     }
   }
