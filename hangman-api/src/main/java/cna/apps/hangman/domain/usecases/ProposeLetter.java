@@ -8,21 +8,16 @@ import cna.apps.hangman.domain.entities.MoveResult;
 import cna.apps.hangman.domain.ports.GameRepository;
 import cna.apps.hangman.domain.ports.proposal.GameOver;
 import cna.apps.hangman.domain.ports.proposal.LetterProposalOutputBoundary;
-import cna.apps.hangman.domain.ports.proposal.LostGame;
-import cna.apps.hangman.domain.ports.proposal.ProgressingGame;
 import cna.apps.hangman.domain.ports.proposal.ProposeLetterInputBoundary;
-import cna.apps.hangman.domain.ports.proposal.WonGame;
 
 public class ProposeLetter implements ProposeLetterInputBoundary {
 
   private final GameRepository gameRepository;
   private final LetterProposalOutputBoundary presenter;
-  private final MoveResultMessageFactory messageFactory;
 
   public ProposeLetter(GameRepository gameRepository, LetterProposalOutputBoundary presenter) {
     this.gameRepository = gameRepository;
     this.presenter = presenter;
-    messageFactory = new MoveResultMessageFactory();
   }
 
   @Override
@@ -37,24 +32,7 @@ public class ProposeLetter implements ProposeLetterInputBoundary {
 
   private void tryLetter(HangmanGame hangmanGame, char letter) throws GameOverException {
     MoveResult moveResult = hangmanGame.tryLetter(letter);
-    String message = messageFactory.createMessage(moveResult, letter, hangmanGame.getWordToGuess());
-    presentMoveResult(hangmanGame, message, moveResult);
-  }
-
-  private void presentMoveResult(HangmanGame hangmanGame, String message, MoveResult moveResult) {
-    switch (moveResult) {
-      default: // moveResult never null but the default case is necessary to unit test coverage
-      case GOOD:
-      case WRONG:
-        presenter.gameInProgress(new ProgressingGame(message, hangmanGame.getMask(), hangmanGame.getHangMan().getStep()));
-        break;
-      case LOST_GAME:
-        presenter.lostGame(
-            new LostGame(message, hangmanGame.getWordToGuess(), hangmanGame.getHangMan().getStep(), hangmanGame.getMask()));
-        break;
-      case WON_GAME:
-        presenter.wonGame(new WonGame(message, hangmanGame.getMask(), hangmanGame.getHangMan().getStep()));  
-    }
+    new MoveResultProcessor(hangmanGame, presenter).process(moveResult, letter);
   }
 
 }

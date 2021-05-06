@@ -20,20 +20,20 @@ public class LetterProposalAssertions {
   public static void assertProgressingGame(ProgressingGame progressingGame, String mask, int hangmanStep, MoveResult moveResult, char proposedLetter) {
     assertEquals(mask, progressingGame.getMask());
     assertEquals(hangmanStep, progressingGame.getHangmanStep());
-    assertEquals(MESSAGE_FACTORY.createMessage(moveResult, proposedLetter, null), progressingGame.getMessage());
+    assertEquals(MESSAGE_FACTORY.getMessage(moveResult, proposedLetter, null), progressingGame.getMessage());
   }
 
   public static void assertLostGame(LostGame lostGame, String expectedMask, int expectedHangmanStep, WordToGuess expectedWordToGuess, char proposedLetter) {
     assertEquals(expectedMask, lostGame.getMask());
     assertEquals(expectedHangmanStep, lostGame.getHangmanStep());
     assertEquals(expectedWordToGuess.getValue(), lostGame.getWordToGuess());
-    assertEquals(MESSAGE_FACTORY.createMessage(LOST_GAME, proposedLetter, expectedWordToGuess), lostGame.getMessage());
+    assertEquals(MESSAGE_FACTORY.getMessage(LOST_GAME, proposedLetter, expectedWordToGuess), lostGame.getMessage());
   }
 
   public static void assertWonGame(WonGame wonGame, WordToGuess wordToGuess) {
     assertEquals(wordToGuess.getValue(), wonGame.getMask());
     assertFalse(new Hangman(wonGame.getHangmanStep()).isFull());
-    assertEquals(MESSAGE_FACTORY.createMessage(WON_GAME), wonGame.getMessage());
+    assertEquals(MESSAGE_FACTORY.getMessage(WON_GAME), wonGame.getMessage());
   }
   
 }

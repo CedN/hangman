@@ -3,7 +3,6 @@ package cna.apps.hangman.domain.usecases;
 import java.util.Map;
 
 import cna.apps.hangman.domain.entities.MoveResult;
-import cna.apps.hangman.domain.entities.WordToGuess;
 
 public class MoveResultMessageFactory {
   
@@ -14,7 +13,7 @@ public class MoveResultMessageFactory {
     MoveResult.WON_GAME, "You won the game!"
   );
 
-  public String createMessage(MoveResult moveResult, Object... parameters) {
+  public String getMessage(MoveResult moveResult, Object... parameters) {
     String messagePattern = MOVE_RESULT_MESSAGE_PATTERN.get(moveResult);
     return String.format(messagePattern, parameters);
   }
