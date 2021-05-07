@@ -1,10 +1,14 @@
 package cna.apps.hangman.tech;
 
+import static cna.apps.hangman.adapters.proposal.Errors.GAME_OVER;
+import static cna.apps.hangman.adapters.proposal.Errors.MessageKey.LOST_MESSAGE_KEY;
+import static cna.apps.hangman.adapters.proposal.Errors.MessageKey.WON_MESSAGE_KEY;
 import static cna.apps.hangman.api.ProposalResponse.GameStateEnum.INPROGRESS;
 import static cna.apps.hangman.api.ProposalResponse.GameStateEnum.LOOSE;
 import static cna.apps.hangman.api.ProposalResponse.GameStateEnum.WON;
 import static cna.apps.hangman.tech.ProposalResponseAssertions.assertProposalResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.UUID;
 
@@ -15,8 +19,10 @@ import org.springframework.http.ResponseEntity;
 
 import cna.apps.hangman.adapters.creation.HangmanGameCreatedPresenter;
 import cna.apps.hangman.adapters.creation.HangmanGameCreationController;
+import cna.apps.hangman.adapters.proposal.Errors;
 import cna.apps.hangman.adapters.proposal.LetterProposalController;
 import cna.apps.hangman.adapters.proposal.LetterProposedPresenter;
+import cna.apps.hangman.api.Error;
 import cna.apps.hangman.api.NewGameResponse;
 import cna.apps.hangman.api.ProposalResponse;
 
@@ -89,6 +95,31 @@ public class GameResourceShould {
     ResponseEntity<ProposalResponse> response = gameResource.proposeLetter(GAME_ID.toString(), proposedLetter);
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertProposalResponse(response.getBody(), WORD_HANGMAN, INITIAL_HANGMAN_STEP, WON, message);
+  }
+
+  @Test
+  void return_game_over_response_when_game_is_won() {
+    String proposedLetter = "a";
+    boolean isWonGame = true;
+    fakeProposeLetter.setGameIsOver(isWonGame);
+    BadRequestException exception = assertThrows(BadRequestException.class, () -> gameResource.proposeLetter(GAME_ID.toString(), proposedLetter));
+    assertError(exception.getResponseEntity(), GAME_OVER.code(), GAME_OVER.message(WON_MESSAGE_KEY));
+  }
+
+  @Test
+  void return_game_over_response_when_game_is_lost() {
+    String proposedLetter = "a";
+    boolean isWonGame = false;
+    fakeProposeLetter.setGameIsOver(isWonGame);
+    BadRequestException exception = assertThrows(BadRequestException.class, () -> gameResource.proposeLetter(GAME_ID.toString(), proposedLetter));
+    assertError(exception.getResponseEntity(), GAME_OVER.code(), GAME_OVER.message(LOST_MESSAGE_KEY));
+  }
+
+  private void assertError(ResponseEntity<Error> responseEntity, int code, String message) {
+    assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+    Error error = responseEntity.getBody();
+    assertEquals(code, error.getCode());
+    assertEquals(message, error.getMessage());
   }
   
 }

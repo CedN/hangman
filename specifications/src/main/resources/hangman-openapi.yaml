@@ -45,7 +45,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProposalResponse'
         400:
-          description: 'Unknown game'
+          description: 'Unknown game or game over'
           content:
             application/json:
               schema:
@@ -91,8 +91,8 @@ components:
         code:
           type: integer
           example:
-            100
+            4001
         message:
           type: string
           example:
-            'Error during game instantiation'
+            'The game is over!'

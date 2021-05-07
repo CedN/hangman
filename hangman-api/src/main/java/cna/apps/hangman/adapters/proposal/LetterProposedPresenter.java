@@ -1,5 +1,8 @@
 package cna.apps.hangman.adapters.proposal;
 
+import static cna.apps.hangman.adapters.proposal.Errors.GAME_OVER;
+import static cna.apps.hangman.adapters.proposal.Errors.MessageKey.LOST_MESSAGE_KEY;
+import static cna.apps.hangman.adapters.proposal.Errors.MessageKey.WON_MESSAGE_KEY;
 import static cna.apps.hangman.api.ProposalResponse.GameStateEnum.INPROGRESS;
 import static cna.apps.hangman.api.ProposalResponse.GameStateEnum.LOOSE;
 import static cna.apps.hangman.api.ProposalResponse.GameStateEnum.WON;
@@ -10,6 +13,7 @@ import cna.apps.hangman.domain.ports.proposal.LetterProposalOutputBoundary;
 import cna.apps.hangman.domain.ports.proposal.LostGame;
 import cna.apps.hangman.domain.ports.proposal.ProgressingGame;
 import cna.apps.hangman.domain.ports.proposal.WonGame;
+import cna.apps.hangman.tech.BadRequestException;
 
 public class LetterProposedPresenter implements LetterProposalOutputBoundary {
 
@@ -44,8 +48,12 @@ public class LetterProposedPresenter implements LetterProposalOutputBoundary {
 
   @Override
   public void gameIsOver(GameOver gameOver) {
-    // TODO Auto-generated method stub
-    
+    String errorMessage = selectErrorMessage(gameOver.isWonGame());
+    throw new BadRequestException(GAME_OVER.code(), errorMessage);
+  }
+
+  private String selectErrorMessage(boolean wonGame) {
+    return wonGame ? GAME_OVER.message(WON_MESSAGE_KEY) : GAME_OVER.message(LOST_MESSAGE_KEY);
   }
 
   public ProposalResponse getProposalResponse() {

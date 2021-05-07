@@ -9,6 +9,8 @@ import cna.apps.hangman.domain.ports.proposal.WonGame;
 
 public class PresenterCallFactory {
 
+  private PresenterCallFactory() {}
+
   static PresenterCall getGameInProgressPresenterCall() {
     return new PresenterCall() {
       @Override

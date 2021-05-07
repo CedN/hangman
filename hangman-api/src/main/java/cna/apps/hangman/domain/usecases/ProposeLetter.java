@@ -26,7 +26,7 @@ public class ProposeLetter implements ProposeLetterInputBoundary {
     try {
       tryLetter(hangmanGame, letter);
     } catch (GameOverException e) {
-      presenter.gameIsOver(new GameOver(e));
+      presenter.gameIsOver(new GameOver(e.isWonGame()));
     }
   }
 

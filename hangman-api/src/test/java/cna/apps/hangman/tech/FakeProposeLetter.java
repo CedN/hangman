@@ -3,6 +3,7 @@ package cna.apps.hangman.tech;
 import java.util.UUID;
 
 import cna.apps.hangman.domain.entities.WordToGuess;
+import cna.apps.hangman.domain.ports.proposal.GameOver;
 import cna.apps.hangman.domain.ports.proposal.LetterProposalOutputBoundary;
 import cna.apps.hangman.domain.ports.proposal.LostGame;
 import cna.apps.hangman.domain.ports.proposal.ProgressingGame;
@@ -17,9 +18,10 @@ public class FakeProposeLetter implements ProposeLetterInputBoundary {
   private String message;
   private GameStatus gameStatus;
   private String wordToGuess;
+  private boolean isWonGame;
 
   private enum GameStatus {
-    IN_PROGRESS, LOST, WON;
+    IN_PROGRESS, LOST, WON, GAME_OVER;
   }
 
   public FakeProposeLetter(LetterProposalOutputBoundary presenter) {
@@ -48,19 +50,20 @@ public class FakeProposeLetter implements ProposeLetterInputBoundary {
     this.hangmanStep = hangmanStep;
   }
 
+  public void setGameIsOver(boolean isWonGame) {
+    this.gameStatus = GameStatus.GAME_OVER;
+    this.isWonGame = isWonGame;
+  }
+
   @Override
   public void tryLetter(UUID gameId, char c) {
     switch (gameStatus) {
-      case IN_PROGRESS:
-        presenter.gameInProgress(new ProgressingGame(message, mask, hangmanStep));
-        break;
-      case LOST:
-        presenter.lostGame(new LostGame(message, new WordToGuess(wordToGuess), hangmanStep, mask));
-        break;
-      case WON:
-        presenter.wonGame(new WonGame(message, mask, hangmanStep));
-        break;
+      case IN_PROGRESS -> presenter.gameInProgress(new ProgressingGame(message, mask, hangmanStep));
+      case LOST -> presenter.lostGame(new LostGame(message, new WordToGuess(wordToGuess), hangmanStep, mask));
+      case WON -> presenter.wonGame(new WonGame(message, mask, hangmanStep));
+      case GAME_OVER -> presenter.gameIsOver(new GameOver(isWonGame));
     }
   }
+
 
 }
