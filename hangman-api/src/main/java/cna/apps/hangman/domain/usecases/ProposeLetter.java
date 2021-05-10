@@ -21,12 +21,24 @@ public class ProposeLetter implements ProposeLetterInputBoundary {
   }
 
   @Override
-  public void tryLetter(UUID gameId, char letter) {
-    HangmanGame hangmanGame = gameRepository.get(gameId);
+  public void tryLetter(UUID gameId, char letter) throws UnknownGameException {
+    HangmanGame hangmanGame = getHangmanGameFromId(gameId);
     try {
       tryLetter(hangmanGame, letter);
     } catch (GameOverException e) {
       presenter.gameIsOver(new GameOver(e.isWonGame()));
+    }
+  }
+
+  private HangmanGame getHangmanGameFromId(UUID gameId) throws UnknownGameException {
+    HangmanGame hangmanGame = gameRepository.get(gameId);
+    assertHangmanGameNotNull(hangmanGame);
+    return hangmanGame;
+  }
+
+  private void assertHangmanGameNotNull(HangmanGame hangmanGame) throws UnknownGameException {
+    if (hangmanGame == null) {
+      throw new UnknownGameException();
     }
   }
 
