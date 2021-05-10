@@ -1,11 +1,13 @@
 package cna.apps.hangman.tech;
 
 import static cna.apps.hangman.adapters.proposal.Errors.GAME_OVER;
+import static cna.apps.hangman.adapters.proposal.Errors.UNKNOWN_GAME;
 import static cna.apps.hangman.adapters.proposal.Errors.MessageKey.LOST_MESSAGE_KEY;
 import static cna.apps.hangman.adapters.proposal.Errors.MessageKey.WON_MESSAGE_KEY;
 import static cna.apps.hangman.api.ProposalResponse.GameStateEnum.INPROGRESS;
 import static cna.apps.hangman.api.ProposalResponse.GameStateEnum.LOOSE;
 import static cna.apps.hangman.api.ProposalResponse.GameStateEnum.WON;
+import static cna.apps.hangman.tech.ErrorAssertions.assertError;
 import static cna.apps.hangman.tech.ProposalResponseAssertions.assertProposalResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,10 +21,8 @@ import org.springframework.http.ResponseEntity;
 
 import cna.apps.hangman.adapters.creation.HangmanGameCreatedPresenter;
 import cna.apps.hangman.adapters.creation.HangmanGameCreationController;
-import cna.apps.hangman.adapters.proposal.Errors;
 import cna.apps.hangman.adapters.proposal.LetterProposalController;
 import cna.apps.hangman.adapters.proposal.LetterProposedPresenter;
-import cna.apps.hangman.api.Error;
 import cna.apps.hangman.api.NewGameResponse;
 import cna.apps.hangman.api.ProposalResponse;
 
@@ -115,11 +115,12 @@ public class GameResourceShould {
     assertError(exception.getResponseEntity(), GAME_OVER.code(), GAME_OVER.message(LOST_MESSAGE_KEY));
   }
 
-  private void assertError(ResponseEntity<Error> responseEntity, int code, String message) {
-    assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
-    Error error = responseEntity.getBody();
-    assertEquals(code, error.getCode());
-    assertEquals(message, error.getMessage());
+  @Test
+  void return_unknown_game_when_the_game_does_not_exist() {
+    String proposedLetter = "a";
+    fakeProposeLetter.setUnknownGame();
+    BadRequestException exception = assertThrows(BadRequestException.class, () -> gameResource.proposeLetter(GAME_ID.toString(), proposedLetter));
+    assertError(exception.getResponseEntity(), UNKNOWN_GAME.code(), UNKNOWN_GAME.message());
   }
   
 }

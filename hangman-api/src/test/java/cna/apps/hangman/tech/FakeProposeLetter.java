@@ -9,6 +9,7 @@ import cna.apps.hangman.domain.ports.proposal.LostGame;
 import cna.apps.hangman.domain.ports.proposal.ProgressingGame;
 import cna.apps.hangman.domain.ports.proposal.ProposeLetterInputBoundary;
 import cna.apps.hangman.domain.ports.proposal.WonGame;
+import cna.apps.hangman.domain.usecases.UnknownGameException;
 
 public class FakeProposeLetter implements ProposeLetterInputBoundary {
 
@@ -21,7 +22,7 @@ public class FakeProposeLetter implements ProposeLetterInputBoundary {
   private boolean isWonGame;
 
   private enum GameStatus {
-    IN_PROGRESS, LOST, WON, GAME_OVER;
+    IN_PROGRESS, LOST, WON, GAME_OVER, UNKNOW_GAME;
   }
 
   public FakeProposeLetter(LetterProposalOutputBoundary presenter) {
@@ -55,13 +56,18 @@ public class FakeProposeLetter implements ProposeLetterInputBoundary {
     this.isWonGame = isWonGame;
   }
 
+  public void setUnknownGame() {
+    this.gameStatus = GameStatus.UNKNOW_GAME;
+  }
+
   @Override
-  public void tryLetter(UUID gameId, char c) {
+  public void tryLetter(UUID gameId, char c) throws UnknownGameException {
     switch (gameStatus) {
       case IN_PROGRESS -> presenter.gameInProgress(new ProgressingGame(message, mask, hangmanStep));
       case LOST -> presenter.lostGame(new LostGame(message, new WordToGuess(wordToGuess), hangmanStep, mask));
       case WON -> presenter.wonGame(new WonGame(message, mask, hangmanStep));
       case GAME_OVER -> presenter.gameIsOver(new GameOver(isWonGame));
+      case UNKNOW_GAME -> throw new UnknownGameException();
     }
   }
 
