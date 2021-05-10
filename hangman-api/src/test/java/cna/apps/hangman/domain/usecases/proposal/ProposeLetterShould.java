@@ -91,7 +91,7 @@ public class ProposeLetterShould {
   void indicate_the_game_is_lose_after_7_wrong_letter_proposal() throws UnknownGameException {
     char proposedLetter = 'u';
     var gameId = givenNewGame(gameRepository, HANGMAN);
-    proposeLetters(gameId, 'q', 'w', 'e', 'r', 't', 'y', 'u');
+    proposeLetters(gameId, 'q', 'w', 'e', 'r', 't', 'y', proposedLetter);
     var lostGame = presenter.getLostGame();
     assertLostGame(lostGame, HANGMAN_MASK, FULL_HANGMAN, new WordToGuess(HANGMAN), proposedLetter);
   }

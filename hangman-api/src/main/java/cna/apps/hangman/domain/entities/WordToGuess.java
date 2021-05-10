@@ -16,4 +16,9 @@ public class WordToGuess {
     return value.indexOf(c) != -1;
   }
 
+  @Override
+  public String toString() {
+    return getValue();
+  }
+
 }

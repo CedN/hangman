@@ -55,6 +55,7 @@
 				<configuration>
 					<excludes>
 						<exclude>**/HangmanApplication.class</exclude>
+						<exclude>**/*Configuration.class</exclude>
 					</excludes>
 				</configuration>
 				<executions>

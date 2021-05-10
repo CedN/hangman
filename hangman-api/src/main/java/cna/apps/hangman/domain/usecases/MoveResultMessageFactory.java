@@ -9,7 +9,7 @@ public class MoveResultMessageFactory {
   private static final Map<MoveResult, String> MOVE_RESULT_MESSAGE_PATTERN = Map.of(
     MoveResult.GOOD, "You have found the letter '%c'!",
     MoveResult.WRONG, "The letter '%c' is not in the word to guess!",
-    MoveResult.LOST_GAME, "You lost the game, the word to guess was '%s'!",
+    MoveResult.LOST_GAME, "You lost the game by proposing the wrong letter '%c'! The word to guess was '%s'.",
     MoveResult.WON_GAME, "You won the game!"
   );
 
