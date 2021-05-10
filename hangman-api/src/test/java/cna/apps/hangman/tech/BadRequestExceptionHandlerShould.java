@@ -11,14 +11,14 @@ import org.springframework.web.context.request.WebRequest;
 
 import cna.apps.hangman.api.Error;
 
-public class ResponseEntityExceptionHandlerShould {
+public class BadRequestExceptionHandlerShould {
 
   @Test
   void return_400_reponse_with_code_and_message_from_BadRquestException() {
     int code = 100;
     String message = "bad request message";
     var badRequestException = new BadRequestException(code, message);
-    ResponseEntity<Error> responseEntity = new ResponseEntityExceptionHander().handle(badRequestException,
+    ResponseEntity<Error> responseEntity = new BadRequestExceptionHandler().handle(badRequestException,
         mockWebRequest());
     assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     assertEquals(code, responseEntity.getBody().getCode());

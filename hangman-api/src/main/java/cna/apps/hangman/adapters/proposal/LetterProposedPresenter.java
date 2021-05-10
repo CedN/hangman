@@ -7,6 +7,9 @@ import static cna.apps.hangman.api.ProposalResponse.GameStateEnum.INPROGRESS;
 import static cna.apps.hangman.api.ProposalResponse.GameStateEnum.LOOSE;
 import static cna.apps.hangman.api.ProposalResponse.GameStateEnum.WON;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cna.apps.hangman.api.ProposalResponse;
 import cna.apps.hangman.domain.ports.proposal.GameOver;
 import cna.apps.hangman.domain.ports.proposal.LetterProposalOutputBoundary;
@@ -17,6 +20,8 @@ import cna.apps.hangman.tech.BadRequestException;
 
 public class LetterProposedPresenter implements LetterProposalOutputBoundary {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(LetterProposedPresenter.class);
+
   private ProposalResponse proposalResponse;
 
   @Override
@@ -26,6 +31,7 @@ public class LetterProposedPresenter implements LetterProposalOutputBoundary {
     proposalResponse.hangmanStep(letterProposalResult.getHangmanStep());
     proposalResponse.maskedWord(letterProposalResult.getMask());  
     proposalResponse.message(letterProposalResult.getMessage());
+    LOGGER.info("The game is progressing with mask = '{}' and message = '{}'", proposalResponse.getMaskedWord(), proposalResponse.getMessage());
   }
 
   @Override
@@ -35,6 +41,7 @@ public class LetterProposedPresenter implements LetterProposalOutputBoundary {
     proposalResponse.hangmanStep(lostGame.getHangmanStep());
     proposalResponse.maskedWord(lostGame.getMask());
     proposalResponse.setMessage(lostGame.getMessage());
+    LOGGER.info("The game is lost with mask = '{}' and message = '{}'", proposalResponse.getMaskedWord(), proposalResponse.getMessage());
   }
 
   @Override
@@ -44,6 +51,7 @@ public class LetterProposedPresenter implements LetterProposalOutputBoundary {
     proposalResponse.hangmanStep(wonGame.getHangmanStep());
     proposalResponse.maskedWord(wonGame.getMask());
     proposalResponse.setMessage(wonGame.getMessage());
+    LOGGER.info("The game is won with mask = '{}' and message = '{}'", proposalResponse.getMaskedWord(), proposalResponse.getMessage());
   }
 
   @Override
