@@ -24,14 +24,14 @@ public class LetterProposalAssertions {
   }
 
   public static void assertLostGame(LostGame lostGame, String expectedMask, int expectedHangmanStep, WordToGuess expectedWordToGuess, char proposedLetter) {
-    assertEquals(expectedMask, lostGame.getMask());
-    assertEquals(expectedHangmanStep, lostGame.getHangmanStep());
-    assertEquals(expectedWordToGuess.getValue(), lostGame.getWordToGuess());
-    assertEquals(MESSAGE_FACTORY.getMessage(LOST_GAME, proposedLetter, expectedWordToGuess), lostGame.getMessage());
+    assertEquals(expectedMask, lostGame.mask());
+    assertEquals(expectedHangmanStep, lostGame.hangmanStep());
+    assertEquals(expectedWordToGuess, lostGame.wordToGuess());
+    assertEquals(MESSAGE_FACTORY.getMessage(LOST_GAME, proposedLetter, expectedWordToGuess), lostGame.message());
   }
 
   public static void assertWonGame(WonGame wonGame, WordToGuess wordToGuess) {
-    assertEquals(wordToGuess.getValue(), wonGame.getMask());
+    assertEquals(wordToGuess.value(), wonGame.getMask());
     assertFalse(new Hangman(wonGame.getHangmanStep()).isFull());
     assertEquals(MESSAGE_FACTORY.getMessage(WON_GAME), wonGame.getMessage());
   }

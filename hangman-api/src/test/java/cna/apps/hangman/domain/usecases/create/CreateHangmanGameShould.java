@@ -42,9 +42,9 @@ public class CreateHangmanGameShould {
   }
 
   private void assertNewGameInGameRepository(NewGame newGame) {
-    HangmanGame hangmanGame = gameRepository.get(newGame.getId());
+    HangmanGame hangmanGame = gameRepository.get(newGame.id());
     assertNotNull(hangmanGame);
-    assertEquals(newGame.getMask(), hangmanGame.getMask());
+    assertEquals(newGame.mask(), hangmanGame.getMask());
   }
 
   @Test

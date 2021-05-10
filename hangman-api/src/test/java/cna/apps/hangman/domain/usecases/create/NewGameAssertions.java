@@ -9,14 +9,14 @@ import cna.apps.hangman.domain.ports.create.NewGame;
 public class NewGameAssertions {
   
   public static void assertNewGame(NewGame newGame, String expectedMask) {
-    assertNotNull(newGame.getId());
-    assertEquals(expectedMask, newGame.getMask());
+    assertNotNull(newGame.id());
+    assertEquals(expectedMask, newGame.mask());
   }
   
   public static void assertDifferentNewGames(NewGame newGame, String expectedMask, NewGame otherNewGame, String otherExpectedMask) {
     assertNewGame(newGame, expectedMask);
     assertNewGame(otherNewGame, otherExpectedMask);
-    assertNotEquals(newGame.getId(), otherNewGame.getId());
+    assertNotEquals(newGame.id(), otherNewGame.id());
   }
   
 }

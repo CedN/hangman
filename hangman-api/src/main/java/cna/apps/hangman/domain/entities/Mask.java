@@ -18,7 +18,7 @@ class Mask {
   }
 
   String showMaskedWord(WordToGuess wordToGuess) {
-    return wordToGuess.getValue().codePoints().mapToObj(c -> (char) c).map(this::maskLetterNotFound)
+    return wordToGuess.value().codePoints().mapToObj(c -> (char) c).map(this::maskLetterNotFound)
         .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append).toString();
   }
 

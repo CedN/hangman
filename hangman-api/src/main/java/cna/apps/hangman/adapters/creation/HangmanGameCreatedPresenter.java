@@ -16,8 +16,8 @@ public class HangmanGameCreatedPresenter implements NewGameOutputBoundary {
   @Override
   public void newGameCreated(NewGame newGame) {
     newGameResponse = new NewGameResponse();
-    newGameResponse.gameId(newGame.getId().toString());
-    newGameResponse.mask(newGame.getMask());
+    newGameResponse.gameId(newGame.id().toString());
+    newGameResponse.mask(newGame.mask());
   }
 
   public NewGameResponse getNewGameResponse() {

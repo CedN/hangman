@@ -38,9 +38,9 @@ public class LetterProposedPresenter implements LetterProposalOutputBoundary {
   public void lostGame(LostGame lostGame) {
     proposalResponse = new ProposalResponse();
     proposalResponse.gameState(LOOSE);
-    proposalResponse.hangmanStep(lostGame.getHangmanStep());
-    proposalResponse.maskedWord(lostGame.getMask());
-    proposalResponse.setMessage(lostGame.getMessage());
+    proposalResponse.hangmanStep(lostGame.hangmanStep());
+    proposalResponse.maskedWord(lostGame.mask());
+    proposalResponse.setMessage(lostGame.message());
     LOGGER.info("The game is lost with mask = '{}' and message = '{}'", proposalResponse.getMaskedWord(), proposalResponse.getMessage());
   }
 

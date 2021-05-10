@@ -18,7 +18,7 @@ public class InMemoryGameRepository implements GameRepository {
   public void add(UUID gameId, HangmanGame hangmanGame) {
     games.put(gameId, hangmanGame);
     LOGGER.debug("The hangman game '{}' has been added with the ID = '{}'",
-        hangmanGame.getWordToGuess().getValue(), gameId);
+        hangmanGame.getWordToGuess().value(), gameId);
   }
 
   @Override
