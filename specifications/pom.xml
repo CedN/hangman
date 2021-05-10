@@ -10,7 +10,6 @@
 	<name>specifications</name>
 	<description>Hangman game OpenAPI 3.0 specifications</description>
 	<properties>
-		<java.version>15</java.version>
 		<springfox-version>2.10.5</springfox-version>
 	</properties>
 	<dependencies>

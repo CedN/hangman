@@ -10,7 +10,6 @@
 	<name>hangman-api</name>
 	<description>Hangman game REST</description>
 	<properties>
-		<java.version>15</java.version>
 		<junit-jupiter.version>5.7.1</junit-jupiter.version>
 	</properties>
 	<dependencies>
