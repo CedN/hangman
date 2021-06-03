@@ -5,11 +5,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.annotation.RequestScope;
 
 import cna.apps.hangman.adapters.InMemoryGameRepository;
+import cna.apps.hangman.adapters.RandomWordApi;
 import cna.apps.hangman.adapters.WordList;
+import cna.apps.hangman.adapters.WordProviderAdapter;
 import cna.apps.hangman.adapters.creation.HangmanGameCreatedPresenter;
 import cna.apps.hangman.adapters.creation.HangmanGameCreationController;
 import cna.apps.hangman.adapters.proposal.LetterProposalController;
 import cna.apps.hangman.adapters.proposal.LetterProposedPresenter;
+import cna.apps.hangman.apiclients.randomwords.DefaultApi;
 import cna.apps.hangman.domain.ports.GameRepository;
 import cna.apps.hangman.domain.ports.WordProvider;
 import cna.apps.hangman.domain.ports.create.CreateHangmanGameInputBoundary;
@@ -31,7 +34,9 @@ public class ApplicationConfiguration {
 
   @Bean
   public WordProvider getWordProvider() {
-    return new WordList(WORD_LIST);
+    WordProvider main = new RandomWordApi(new DefaultApi());
+    WordProvider backup = new WordList(WORD_LIST);
+    return new WordProviderAdapter(main, backup);
   }
 
   @Bean

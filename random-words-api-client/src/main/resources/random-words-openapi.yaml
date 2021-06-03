@@ -1,0 +1,44 @@
+openapi: '3.0.2'
+info:
+  title: Random words API
+  description: 'Describe the API specifications of the project https://github.com/mcnaveen/Random-Words-API'
+  version: '1.0'
+servers:
+  - url: https://random-words-api.vercel.app
+paths:
+  /word:
+    get:
+      operationId: fetchWord
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RandomWordResponse'
+
+components:
+  schemas:
+    RandomWordResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/RandomWord'
+    RandomWord:
+      type: object
+      properties:
+        word:
+          description: 'the word'
+          type: string
+          example: 'Hello'
+        definition:
+          description: 'definition of the word'
+          type: string
+          example: 'Used as a greeting or to begin a phone conversation.'
+        pronunciation:
+          description: 'pronunciation of the word'
+          type: string
+          example: 'hello'
+      required:
+        - word
+        - definition
+        - pronunciation

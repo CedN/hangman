@@ -21,6 +21,7 @@
 	<modules>
 		<module>hangman-api</module>
 		<module>specifications</module>
+		<module>random-words-api-client</module>
 	</modules>
 	<build>
 		<plugins>
