@@ -1,10 +1,23 @@
 # Hangman
 This project is a Rest API to play hangman. This context must allow me to try to realize a side project by using the clean architecture, the contract first development and TDD with 100% code coverage. It's a ambitious target but I like to think, it's a success :)
 
+## Table of content
+1. [Clean Architecture](#clean-architectire)
+1. [Some Word about Presenter](#some-word-about-presenter)
+1. [Implementation with Spring Boot](#implementation-with-spring-boot)
+1. [Contract First Development](#contract-first-development)
+1. [TDD](#tdd)
+1. [Code Coverage](#code-coverage)
+1. [Install, build and run](#install-build-run)
+1. [Links](#links)
+1. [Status](#status)
+
+<a name="clean-arcitecture"></a>
 ## Clean Architecture
 
 The Clean Architecture is defined by Robert C. Martin (aka Uncle Bob) and I advise you to read his blog article about it: https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html. My implementation modelizes the controller and the presenter as 2 differents classes outside of Spring Boot framework classes. In the examples, that we could find, modelizes the presenter as the return type of the controller call. This is a mistake and I advice you to read this detailed explicatio by Jeremiah Flaga: https://softwareengineering.stackexchange.com/questions/357052/clean-architecture-use-case-containing-the-presenter-or-returning-data. Another mistake is to believe that the controller is a framework 'controller' class like in all MVC framework. Another article, by Tobias Strandberg, to understand this controller confusion: https://adevelopersdiscourse.blogspot.com/2020/06/clean-architecture-demystified.html.
 
+<a name="some-word-about-presenter"></a>
 ### Some words about Presenter
 Use a presenter as class instead of a return value from controller calls allows to have non homogeneous returns. In the case of a letter proposal, in the hangman game, the result can be a letter found, a wrong letter, the word to guess discovered or a game over. Having a homogeneous type as a return value that covers all of these possibilities is obviously difficult. And this type may be complex and not respect the SOLID principles. The case of the result of the proposed letter can be considered as one event among several possible. The use case calls the presenter by using the right method that match the right event.
 
@@ -17,8 +30,7 @@ public interface LetterProposalOutputBoundary {
 	void gameIsOver(GameOver gameOver);
 }
 ```
-
-
+<a name="implementation-with-spring-boot"></a>
 ### Implementation with Spring Boot
 Controller and presenter are adapter classes. Controller calls the interactor ('usecase' in my project's nomenclature) through the InputBoundary interface. Usecase calls the presenter through the OutputBoundary. It provides the result of the processing to the Presenter. The presenter transforms the result into a DTO. Finally, the Rest controller calls the controller to process the action and then reads the response from the presenter.
 ![Implementation diagram](images/adapters-usage.png)
@@ -33,7 +45,7 @@ public LetterProposedPresenter getLetterProposalOutputBoundary() {
   return new LetterProposedPresenter();
 }
 ```
-
+<a name="contract-first-development">
 ## Contract First Development
 Contract First Development is about defining the contract of an API before start to implement it. Using code generation for server and clients from the contract allows guarantees they are aligned. we can also mock the API very easily during its development.
 
@@ -105,17 +117,24 @@ _Openapi generator maven plugin configuration for Java client_:
   </plugins>
 </build>
 ```
-
+<a name="tdd"></a>
 ## TDD
 I start by implementing the usecase tests. the progression into this unit tests allows to design the domain entities. Coverage of use case tests allows the domain entities to emerge naturally. Then I realize the development of adapters and then the Spring Boot glue.
 
 The implementation of the domain (user case and entities) is realized by using outside-in TDD. But the complete application is developed from an inside-out TDD angle.
 
 No mock framework are used, so fake and spy classes are coded to simulate external dependencies behavior or to assert external dependencies calls.
-
+<a name="code-coverage"></a>
 ## Code coverage
 I coupled Jacoco and the [Coveralls](https://coveralls.io) service to measure the code coverage. And to have 100% code coverage, I excluded Spring Boot technical classes like application and configuration classes. 
-
+<a name="install-build-run"></a>
+## Install, build and run
+* Prerequisite: have Java 16 installed (openJDK or Oracle JDK)
+* Clone the repo
+* Build the project with `mvnw clean package` from a terminal
+* Run the class `cna.apps.hangman.tech.HangmanApplication` from your IDE or with `java -jar hangman-api/target/hangman-api-0.0.1-SNAPSHOT.jar` from a terminal. 
+* Use [the OpenAPI contract](https://raw.githubusercontent.com/CedN/hangman/main/specifications/src/main/resources/hangman-openapi.yaml) to play :)
+<a name="links"></a>
 ## Links
 About clean architecture:
 * Robert C. Martin's blog: https://blog.cleancoder.com/
@@ -130,6 +149,6 @@ About OpenAPI:
 About code coverage:
 * Jacoco maven plugin: https://www.eclemma.org/jacoco/trunk/doc/maven.html
 * Coveralls : https://coveralls.io
-
+<a name="status"></a>
 ## Status
 [![Build Status](https://travis-ci.com/CedN/hangman.svg?branch=main)](https://travis-ci.com/CedN/hangman) [![Coverage Status](https://coveralls.io/repos/github/CedN/hangman/badge.svg?branch=main)](https://coveralls.io/github/CedN/hangman?branch=main)
