@@ -1,0 +1,5 @@
+Hangman is a Rest Service to play the hangman game
+Copyright 2021 @CedN
+
+This product includes software developed at
+The Apache Software Foundation (http://www.apache.org/).
