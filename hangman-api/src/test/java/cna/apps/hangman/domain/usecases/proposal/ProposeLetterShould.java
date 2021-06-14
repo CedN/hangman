@@ -104,7 +104,7 @@ public class ProposeLetterShould {
   }
 
   @Test
-  void indicate_the_game_is_lose_after_7_wrong_letter_proposal() throws UnknownGameException {
+  void lose_the_game_after_7_wrong_letter_proposals() throws UnknownGameException {
     char proposedLetter = 'u';
     var gameId = givenNewGame(gameRepository, HANGMAN);
     proposeLetters(gameId, 'q', 'w', 'e', 'r', 't', 'y', proposedLetter);
@@ -113,7 +113,7 @@ public class ProposeLetterShould {
   }
 
   @Test
-  void indicate_the_game_is_won_if_all_letters_are_been_discovered() throws UnknownGameException {
+  void win_the_game_after_all_letters_are_been_discovered() throws UnknownGameException {
     var gameId = givenNewGame(gameRepository, HANGMAN);
     proposeLetters(gameId, 'h', 'a', 'n', 'g', 'm');
     var wonGame = presenter.getWonGame();
@@ -121,7 +121,7 @@ public class ProposeLetterShould {
   }
 
   @Test
-  void indicate_the_game_is_over_if_game_is_won_and_propose_a_letter() throws UnknownGameException {
+  void game_over_if_propose_a_letter_when_game_is_won() throws UnknownGameException {
     var gameId = givenWonGame();
     proposeLetter.tryLetter(gameId, 'a');
     var gameOver = presenter.getGameOver();
@@ -135,7 +135,7 @@ public class ProposeLetterShould {
   }
 
   @Test
-  void indicate_the_game_is_over_if_game_is_lost_and_propose_a_letter() throws UnknownGameException {
+  void game_over_if_propose_a_letter_when_game_is_lost() throws UnknownGameException {
     var gameId = givenLostGame();
     proposeLetter.tryLetter(gameId, 'a');
     var gameOver = presenter.getGameOver();
