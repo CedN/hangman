@@ -45,9 +45,8 @@ public LetterProposedPresenter getLetterProposalOutputBoundary() {
   return new LetterProposedPresenter();
 }
 ```
-<a name="contract-first-development">
+<a name="contract-first-development"></a>
 ## Contract First Development
-
 Contract-first development is about defining the contract of an API before starting to implement it. Using code generation for server and clients from the contract guarantees they are aligned. We can also mock the API very easily during its development.
 
 I use [OpenAPI 3.0.1](https://spec.openapis.org/oas/v3.0.1) to describe the contract of the Hangman API in a dedicated Maven module named 'specifications'. The 'openapi-generator-maven-plugin' allows to generate code. I want to generate only interfaces for the service side and change some package's names.
